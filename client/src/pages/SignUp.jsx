@@ -17,11 +17,11 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
-      !formData.registerId ||
+      !formData.registerID ||
+      !formData.HospitalName ||
       !formData.email ||
       !formData.password ||
-      !formData.address ||
-      !formData.hospitalName
+      !formData.address
     ) {
       return setErrorMessage("Please fill in all fields");
     }

@@ -23,10 +23,15 @@ const hospitalSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    SignOutSuccess: (state) => {
+      state.currentHospital = null;
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
-export const { signInStart, signInSuccess, signInFailure } =
+export const { signInStart, signInSuccess, signInFailure, SignOutSuccess } =
   hospitalSlice.actions;
 
   export default hospitalSlice.reducer;

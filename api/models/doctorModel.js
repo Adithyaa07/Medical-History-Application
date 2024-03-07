@@ -1,21 +1,20 @@
-import { timeStamp } from "console";
 import mongoose from "mongoose";
 
-const hospitalSchema = new mongoose.Schema(
+const doctorSchema = new mongoose.Schema(
   {
-    registerID: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
-    HospitalName: {
+    userId: {
       type: "string",
       required: true,
     },
-
+    name: {
+      type: "string",
+      required: true,
+    },
     email: { type: "string", required: true, unique: true },
     password: { type: "string", required: true },
-    address: { type: "string", required: true },
+    specialization: { type: "string", required: true },
+    phone: { type: Number, required: true },
+    category: { type: "string", default: "doctor" },
     isAdmin: {
       type: "boolean",
       default: true,
@@ -25,5 +24,5 @@ const hospitalSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Hospital = mongoose.model("Hospital", hospitalSchema);
-export default Hospital;
+const Doctor = mongoose.model("Doctors", doctorSchema);
+export default Doctor;
