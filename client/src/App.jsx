@@ -9,8 +9,6 @@ import DashBoard from "./pages/DashBoard";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
-// import AdminPrivateRoute from "./components/AdminPrivateRoute";
-// import CreateDoctor from "./pages/CreateDoctor";
 
 function App() {
   return (
@@ -24,9 +22,6 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<DashBoard />} />
         </Route>
-        {/* <Route element={<AdminPrivateRoute />}>
-          <Route path="/create-post" element={<CreateDoctor />} />
-        </Route> */}
       </Routes>
       <Footer />
     </BrowserRouter>

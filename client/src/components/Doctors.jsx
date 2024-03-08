@@ -8,8 +8,10 @@ import {
   Table,
   TextInput,
 } from "flowbite-react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Doctors() {
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +19,27 @@ function Doctors() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { currentHospital } = useSelector((state) => state.hospital);
+  const [userDoctor, setUserDoctor] = useState([]);
+
+  console.log(userDoctor);
+
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        const res = await fetch(
+          `/api/doctor/get-doctors`
+        );
+        const data = await res.json();
+        if (res.ok) {
+          setUserDoctor(data.doctors);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+   fetchDoctor();
+  }, [currentHospital._id, currentHospital.isAdmin]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -155,15 +178,13 @@ function Doctors() {
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
-
-            
           </Table>
-          <div 
-              onClick={() => setShowModal(true)}
-              className="cursor-pointer text-white bg-blue-500 mt-5 py-2 px-4 rounded-md hover:bg-blue-600 w-max mx-auto transition-all duration-300"
-            >
-              Create Doctor
-            </div>
+          <div
+            onClick={() => setShowModal(true)}
+            className="cursor-pointer text-white bg-blue-500 mt-5 py-2 px-4 rounded-md hover:bg-blue-600 w-max mx-auto transition-all duration-300"
+          >
+            Create Doctor
+          </div>
         </div>
       </div>
       <div>

@@ -44,50 +44,53 @@ export default function DashSideBar() {
         Doc Vault
       </Sidebar.Logo>
 
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item className="flex" icon={CiHospital1}>
-            Welcome {currentHospital.HospitalName}
+      {/* <Sidebar.Items> */}
+      <Sidebar.ItemGroup>
+        <Sidebar.Item className="flex" icon={CiHospital1}>
+          Welcome {currentHospital.HospitalName}
+        </Sidebar.Item>
+        <Link to="/dashboard?tab=dash">
+          <Sidebar.Item active={tab === "dash"} icon={RxDashboard}>
+            Dashboard
           </Sidebar.Item>
-          <Link to="/dashboard?tab=dash">
-            <Sidebar.Item active={tab === "dash"} icon={RxDashboard}>
-              Dashboard
-            </Sidebar.Item>
-          </Link>
-          <Link to="/dashboard?tab=patients">
-            <Sidebar.Item icon={HiUserGroup} active={tab === "patients"}>
-              Patient
-            </Sidebar.Item>
-          </Link>
+        </Link>
+        <Link to="/dashboard?tab=patients">
+          <Sidebar.Item icon={HiUserGroup} active={tab === "patients"}>
+            Patient
+          </Sidebar.Item>
+        </Link>
+        {currentHospital && (
           <Link to="/dashboard?tab=doctors">
             <Sidebar.Item active={tab === "doctors"} icon={HiUserGroup}>
               Doctors
             </Sidebar.Item>
           </Link>
-          <Link to="/dashboard?tab=settings">
-            <Sidebar.Item icon={CiSettings} active={tab === "settings"}>
-              Settings
-            </Sidebar.Item>
-          </Link>
-          <Link to="/dashboard?tab=profile">
-            <Sidebar.Item
-              active={tab === "profile"}
-              icon={HiUser}
-              label={currentHospital.HospitalName}
-              labelColor="dark"
-            >
-              Profile
-            </Sidebar.Item>
-          </Link>
-          <Sidebar.Item
-            onClick={handleSignOut}
-            icon={HiArrowSmRight}
-            className="cursor-pointer"
-          >
-            SignOut
+        )}
+        <Link to="/dashboard?tab=settings">
+          <Sidebar.Item icon={CiSettings} active={tab === "settings"}>
+            Settings
           </Sidebar.Item>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
+        </Link>
+        <Link to="/dashboard?tab=profile">
+          <Sidebar.Item
+            to="/dashboard?tab=profile"
+            active={tab === "profile"}
+            icon={HiUser}
+            label={currentHospital.HospitalName}
+            labelColor="dark"
+          >
+            Profile
+          </Sidebar.Item>
+        </Link>
+        <Sidebar.Item
+          onClick={handleSignOut}
+          icon={HiArrowSmRight}
+          className="cursor-pointer"
+        >
+          SignOut
+        </Sidebar.Item>
+      </Sidebar.ItemGroup>
+      {/* </Sidebar.Items> */}
     </Sidebar>
   );
 }

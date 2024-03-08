@@ -24,12 +24,13 @@ const DashBoard = () => {
       <div className="md:w-56">
         <DashSideBar />
       </div>
-
-      {tab === "profile" && <DashProfile />}
-      {tab === "settings" && <Settings />}
-      {tab === "doctors" && <Doctors />}
-      {tab === "patients" && <Patients />}
-      {tab === "dash" && <DashBoardComp />}
+      
+        {tab === "profile" && <DashProfile />}
+        {tab === "settings" && <Settings />}
+        {tab === "doctors" && <Doctors />}
+        {tab === "patients" && <Patients />}
+        {tab === "dash" && <DashBoardComp />}
+      
     </div>
   );
 };
