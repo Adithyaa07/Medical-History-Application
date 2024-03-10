@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import React from 'react'
 import {
   Alert,
@@ -9,37 +10,66 @@ import {
   TextInput,
 } from "flowbite-react";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { AiOutlineSearch } from "react-icons/ai";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-function Doctors() {
+export default function Doctors() {
   const [showModal, setShowModal] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showMore, setShowMore] = useState(true);
   const navigate = useNavigate();
   const { currentHospital } = useSelector((state) => state.hospital);
   const [userDoctor, setUserDoctor] = useState([]);
-
-  console.log(userDoctor);
+  const [docId, setDocId] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
         const res = await fetch(
-          `/api/doctor/get-doctors`
+          `/api/doctor/get-doctors?userId=${currentHospital._id}`
         );
+        //
         const data = await res.json();
         if (res.ok) {
           setUserDoctor(data.doctors);
+          if (data.doctors.length < 9) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
         console.log(error.message);
       }
     };
-   fetchDoctor();
-  }, [currentHospital._id, currentHospital.isAdmin]);
+
+    fetchDoctor();
+  }, [currentHospital._id]);
+
+  const handleShowMore = async () => {
+    const startIndex = userDoctor.length;
+    try {
+      const res = await fetch(
+        `/api/doctor/get-doctors?userId=${currentHospital._id}&startIndex=${startIndex}`
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUserDoctor((prev) => [...prev, ...data.doctors]);
+        if (data.doctors.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -59,7 +89,7 @@ function Doctors() {
     try {
       setLoading(true);
       setErrorMessage(null);
-      const res = await fetch("/api/auth/create-doctor", {
+      const res = await fetch("/api/doctor/create-doctor", {
         method: "POST",
         headers: {
           "content-Type": "application/json",
@@ -71,128 +101,133 @@ function Doctors() {
       if (data.success === false) {
         return setErrorMessage(data.errorMessage);
       }
-      setLoading(false);
+      
       if (res.ok) {
+        setLoading(false);
         navigate("/dashboard?tab=doctors");
+        setShowModal(false);
       }
     } catch (error) {
       setErrorMessage(error.message);
     }
   };
+
+  const handleDeleteDoctor = async () => {
+    setShowModal2(false);
+    try {
+      const res = await fetch(
+        `/api/doctor/delete-doctor/${docId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setUserDoctor((prev) => prev.filter((doc) => doc._id !== docId));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
   return (
-    <div className="w-full p-10 rounded-lg flex-col">
-      <h1 className="text-center text-3xl my-7 font-semibold">
+    <div className="table-auto w-full overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
+      <h1 className="text-center text-3xl my-7 font-semibold w-full p-10 rounded-lg flex-col">
         Doctors Information
       </h1>
+      <form className="w-40 gap-2 m-2" onSubmit={handleSearch}>
+        <TextInput
+          type="text"
+          placeholder="Search..."
+          rightIcon={AiOutlineSearch}
+          className="hidden lg:inline"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </form>
 
-      <div>
-        <div>
-          <Table striped>
-            <Table.Head className="w-full">
+      {userDoctor.length > 0 ? (
+        <>
+          <Table hoverable className="shadow-md">
+            <Table.Head>
+              <Table.HeadCell>Date Updated</Table.HeadCell>
               <Table.HeadCell>Doctor Name</Table.HeadCell>
               <Table.HeadCell>Specialization</Table.HeadCell>
-              <Table.HeadCell>Phone</Table.HeadCell>
               <Table.HeadCell>Email</Table.HeadCell>
-              <Table.HeadCell>Actions</Table.HeadCell>
-            </Table.Head>
 
-            <Table.Body className="py-6">
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {'Apple MacBook Pro 17"'}
-                </Table.Cell>
-                <Table.Cell>Sliver</Table.Cell>
-                <Table.Cell>Laptop</Table.Cell>
-                <Table.Cell>$2999</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  Microsoft Surface Pro
-                </Table.Cell>
-                <Table.Cell>White</Table.Cell>
-                <Table.Cell>Laptop PC</Table.Cell>
-                <Table.Cell>$1999</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  Magic Mouse 2
-                </Table.Cell>
-                <Table.Cell>Black</Table.Cell>
-                <Table.Cell>Accessories</Table.Cell>
-                <Table.Cell>$99</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  Google Pixel Phone
-                </Table.Cell>
-                <Table.Cell>Gray</Table.Cell>
-                <Table.Cell>Phone</Table.Cell>
-                <Table.Cell>$799</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  Apple Watch 5
-                </Table.Cell>
-                <Table.Cell>Red</Table.Cell>
-                <Table.Cell>Wearables</Table.Cell>
-                <Table.Cell>$999</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-            </Table.Body>
+              <Table.HeadCell>
+                <span>Delete</span>
+              </Table.HeadCell>
+            </Table.Head>
+            {userDoctor.map((doc) => (
+              <Table.Body key={doc._id} className="divide-y">
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell>
+                    {new Date(doc.createdAt).toLocaleDateString()}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Link to={`/doctor/${doc.name}`}>{doc.name}</Link>
+                  </Table.Cell>
+                  <Table.Cell>{doc.specialization}</Table.Cell>
+                  <Table.Cell>{doc.email}</Table.Cell>
+                  <Table.Cell>
+                    <span
+                      onClick={() => {
+                        setShowModal2(true);
+                        setDocId(doc._id);
+                      }}
+                      className="font-medium text-red-500 hover:underline cursor-pointer"
+                    >
+                      Delete
+                    </span>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            ))}
           </Table>
-          <div
-            onClick={() => setShowModal(true)}
-            className="cursor-pointer text-white bg-blue-500 mt-5 py-2 px-4 rounded-md hover:bg-blue-600 w-max mx-auto transition-all duration-300"
-          >
-            Create Doctor
-          </div>
-        </div>
+          {showMore && (
+            <button
+              onClick={handleShowMore}
+              className="w-full text-teal-500 self-center text-sm py-7"
+            >
+              Show more
+            </button>
+          )}
+        </>
+      ) : (
+        <p>You Have No doctors</p>
+      )}
+      <div
+        onClick={() => setShowModal(true)}
+        className="cursor-pointer text-white bg-blue-500 mt-5 py-2 px-4 rounded-md hover:bg-blue-600 w-max mx-auto transition-all duration-300"
+      >
+        Create Doctor
       </div>
+
       <div>
         <Modal show={showModal} onClose={() => setShowModal(false)} popup>
           <Modal.Header>
-            <h4 className="text-center p-3 text-2xl my-7 font-bold">
+            <div className="text-center p-3 text-2xl my-7 font-bold">
               Add Doctor
-            </h4>
+            </div>
           </Modal.Header>
           <Modal.Body>
             <div className="w-500 h-max">
@@ -205,7 +240,6 @@ function Doctors() {
                     <Label className="text-gray-600">Doctor Name</Label>
                     <TextInput
                       className="border p-2 rounded-md w-full"
-                      // className="grid gap-4 mb-4 grid-cols-2"
                       type="text"
                       placeholder="Doctor name"
                       id="name"
@@ -278,9 +312,31 @@ function Doctors() {
             )}
           </Modal.Body>
         </Modal>
+        <Modal
+          show={showModal2}
+          onClose={() => setShowModal2(false)}
+          popup
+          size="md"
+        >
+          <Modal.Header />
+          <Modal.Body>
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+              <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+                Are you sure you want to delete this post?
+              </h3>
+              <div className="flex justify-center gap-4">
+                <Button color="failure" onClick={handleDeleteDoctor}>
+                  Yes, I am sure
+                </Button>
+                <Button color="gray" onClick={() => setShowModal2(false)}>
+                  No, cancel
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );
 }
-
-export default Doctors;

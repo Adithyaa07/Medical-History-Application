@@ -20,7 +20,10 @@ export const create = async (req, res, next) => {
   });
   try {
     const savedDoctor = await newDoctor.save();
-    res.status(201).json(savedDoctor);
+    res.status(201).json({
+      success: true,
+      doctor: savedDoctor,
+    });
   } catch (error) {
     next(error);
   }
@@ -62,5 +65,17 @@ export const getDoctors = async (req, res, next) => {
   } catch (error) {
     next(error);
     console.log(error);
+  }
+};
+
+export const deleteDoctor = async (req, res, next) => {
+  // if (req.hospital.id !== req.params.userId) {
+  //   return next(errorHandler(401, "You are not authorized to delete a doctor"));
+  // }
+  try {
+    await Doctor.findByIdAndDelete(req.params.userId);
+    res.status(200).json("The post has been deleted successfully");
+  } catch (error) {
+    next(error);
   }
 };
