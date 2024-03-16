@@ -184,7 +184,7 @@ export default function Doctors() {
                     {new Date(doc.createdAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>
-                    <Link to={`/doctor/${doc.name}`}>{doc.name}</Link>
+                    <Link to={`/doctor/${doc._id}`}>{doc.name}</Link>
                   </Table.Cell>
                   <Table.Cell>{doc.specialization}</Table.Cell>
                   <Table.Cell>{doc.email}</Table.Cell>

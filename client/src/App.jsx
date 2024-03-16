@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import Search from "./components/Search";
+import DocProfile from "./components/DocProfile";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<DashBoard />} />
         </Route>
+        <Route path="/doctor/:doctorId" element={<DocProfile />} />
       </Routes>
       <Footer />
     </BrowserRouter>

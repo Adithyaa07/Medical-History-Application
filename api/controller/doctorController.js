@@ -74,7 +74,7 @@ export const deleteDoctor = async (req, res, next) => {
   // }
   try {
     await Doctor.findByIdAndDelete(req.params.userId);
-    res.status(200).json("The post has been deleted successfully");
+    res.status(200).json("The doctor has been deleted successfully");
   } catch (error) {
     next(error);
   }
