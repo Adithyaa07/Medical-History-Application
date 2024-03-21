@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import hospitalRoutes from "./routes/hospitalRoute.js";
 import authRoutes from "./routes/authRoute.js";
 import doctorRoute from "./routes/doctorRoute.js";
+import patientRoute from "./routes/patientRoute.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.listen(3000, () => {
 app.use("/api/hospital", hospitalRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/doctor", doctorRoute);
+app.use("/api/patient", patientRoute);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

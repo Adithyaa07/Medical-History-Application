@@ -71,6 +71,7 @@ function Header() {
             </Button>
           </Link>
         )}
+        <div className="text-sm content-center mt-2">{currentHospital.HospitalName}</div>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>

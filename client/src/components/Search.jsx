@@ -105,9 +105,10 @@ export default function Search() {
     <div className="flex flex-col md:flex-row">
       <div className="p-7 border-b md:border-r md:min-h-screen border-gray-500">
         <Link to="/dashboard?tab=doctors">
-          <div className="cursor-pointer " icon={HiArrowSmLeft}>
-            ---Back
-          </div>
+          <button className="cursor-pointer flex items-center gap-1">
+            <HiArrowSmLeft className="h-5 w-5" />
+            Back
+          </button>
         </Link>
         <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           <div className="flex   items-center gap-2">
