@@ -101,7 +101,7 @@ export default function Doctors() {
       if (data.success === false) {
         return setErrorMessage(data.errorMessage);
       }
-      
+
       if (res.ok) {
         setLoading(false);
         navigate("/dashboard?tab=doctors");
@@ -115,12 +115,9 @@ export default function Doctors() {
   const handleDeleteDoctor = async () => {
     setShowModal2(false);
     try {
-      const res = await fetch(
-        `/api/doctor/delete-doctor/${docId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`/api/doctor/delete-doctor/${docId}`, {
+        method: "DELETE",
+      });
       const data = await res.json();
       if (!res.ok) {
         console.log(data.message);
@@ -148,8 +145,26 @@ export default function Doctors() {
     navigate(`/search?${searchQuery}`);
   };
 
+  const searchPatient = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/searchP?${searchQuery}`);
+  };
+
   return (
     <div className="table-auto w-full overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
+      <form className="w-60 gap-2 m-2" onSubmit={searchPatient}>
+        <TextInput
+          type="text"
+          placeholder='Search "Patients"'
+          rightIcon={AiOutlineSearch}
+          className="hidden lg:inline"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </form>
       <h1 className="text-center text-3xl my-7 font-semibold w-full p-10 rounded-lg flex-col">
         Doctors Information
       </h1>
@@ -219,7 +234,7 @@ export default function Doctors() {
         onClick={() => setShowModal(true)}
         className="cursor-pointer text-white bg-blue-500 mt-5 py-2 px-4 rounded-md hover:bg-blue-600 w-max mx-auto transition-all duration-300"
       >
-        Create Doctor
+        Add New Doctor
       </div>
 
       <div>
@@ -230,11 +245,16 @@ export default function Doctors() {
             </div>
           </Modal.Header>
           <Modal.Body>
-            <div className="w-500 h-max">
+            <div className="w-700 h-900">
               <form
-                className="flex flex-col gap-2 max-w-md mx-auto"
+                className="flex flex-col gap-2 w-650 mx-auto"
                 onSubmit={handleSubmit}
               >
+                <div className="border-dashed border-2 border-gray-300 rounded-lg p-10 h-40 text-center">
+                  <p className="text-gray-600">
+                    Drag and drop your profile image here
+                  </p>
+                </div>
                 <div className="grid gap-4 mb-4 grid-cols-2">
                   <span>
                     <Label className="text-gray-600">Doctor Name</Label>

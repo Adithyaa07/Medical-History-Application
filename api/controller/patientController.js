@@ -30,3 +30,42 @@ export const create = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getPatients = async (req, res, next) => {
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const patients = await Patient.find({
+      ...(req.query.userId && { userId: req.query.userId }),
+      ...(req.query.name && { name: req.query.name }),
+      ...(req.query.patientId && { _id: req.query.patientId }),
+      ...(req.query.searchTerm && {
+        $or: [
+          { name: { $regex: req.query.searchTerm, $options: "i" } },
+          { blood: { $regex: req.query.searchTerm, $options: "i" } },
+          { age: { $regex: req.query.searchTerm, $options: "i" } },
+        ],
+      }),
+    })
+      .sort({ createdAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+
+    const totalPatients = await Patient.countDocuments();
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    const lastMonth = await Patient.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+    res.status(200).json({ patients, totalPatients, lastMonth });
+  } catch (error) {
+    next(error);
+    console.log(error);
+  }
+};
