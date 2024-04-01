@@ -35,7 +35,8 @@ export default function Doctors() {
     const fetchDoctor = async () => {
       try {
         const res = await fetch(
-          `/api/doctor/get-doctors?userId=${currentHospital._id}`
+          `/api/doctor/get-doctors`
+          // ?userId=${currentHospital._id}
         );
         //
         const data = await res.json();

@@ -42,7 +42,7 @@ const SignIn = () => {
       if (data.success === false) {
         dispatch(signInFailure(data.message));
       }
-      
+
       if (res.ok) {
         dispatch(signInSuccess(data));
         navigate("/dashboard?tab=dash");
@@ -69,9 +69,9 @@ const SignIn = () => {
         <div className="flex-1">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
-              <Label className="text-gray-600">Email</Label>
+              <Label className="font-semibold text-nowrap">Email</Label>
               <TextInput
-                className="border p-2 rounded-md w-full"
+                className="border border-gray-300 rounded-md"
                 type="text"
                 placeholder="Email.."
                 id="email"
@@ -80,9 +80,9 @@ const SignIn = () => {
             </div>
 
             <div>
-              <Label className="text-gray-600">Password</Label>
+              <Label className="font-semibold text-nowrap">Password</Label>
               <TextInput
-                className="border p-2 rounded-md w-full"
+                className="border border-gray-300 rounded-md"
                 type="password"
                 placeholder="*******"
                 id="password"

@@ -2,7 +2,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import DashSideBar from "./DashSideBar";
-
+import { Button, TextInput } from "flowbite-react";
+import Patients from "./Patients";
 
 export default function DocProfile() {
   const { doctorId } = useParams();
@@ -10,7 +11,7 @@ export default function DocProfile() {
   const [, setLoading] = useState(true);
   const [, setError] = useState(false);
   const [doctor, setDoctor] = useState(null);
-  console.log(doctor);
+
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
@@ -64,6 +65,7 @@ export default function DocProfile() {
           </div>
           <p>{doctor && doctor.email}</p>
           <p>{doctor && doctor.phone}</p>
+          {/* <p>{doctor && doctor.userId}</p> */}
 
           <ul className="p-3 gap-2">
             <li
@@ -79,10 +81,16 @@ export default function DocProfile() {
             >
               Patients
             </li>
-            <li className="text-blue-500 cursor-pointer hover:underline mt-3 font-semibold">
+            <li
+              className="text-blue-500 cursor-pointer hover:underline mt-3 font-semibold"
+              onClick={() => toggleItem("appointments")}
+            >
               Appointments
             </li>
-            <li className="text-blue-500 cursor-pointer hover:underline mt-3 font-semibold">
+            <li
+              className="text-blue-500 cursor-pointer hover:underline mt-3 font-semibold"
+              onClick={() => toggleItem("payments")}
+            >
               Payments
             </li>
 
@@ -104,27 +112,40 @@ export default function DocProfile() {
             </div>
             <div className="flex flex-col space-y-3 mt-3">
               <label className="font-semibold">Title</label>
-              <input
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+              <TextInput
+                className="border border-gray-300 font-semibold rounded-md focus:outline-none focus:border-blue-500"
                 placeholder="Dr."
-              ></input>
-              <label className="font-semibold">Full Name</label>
-              <input
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+              />
+              <label className="font-semibold text-nowrap">Full Name</label>
+              <TextInput
+                className="border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                 placeholder="John Doe"
-              ></input>
+              />
               <label className="mt-5 font-semibold">Phone Number</label>
-              <input
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+              <TextInput
+                className="border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                 placeholder="123-456-7890"
-              ></input>
+              />
               <label className="font-semibold">Email</label>
-              <input
-                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+              <TextInput
+                className="border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                 placeholder="example@example.com"
-              ></input>
+              />
+              <div className="flex gap-4 w-full">
+                <span>
+                  <Button>Delete Account</Button>
+                </span>
+                <span>
+                  <Button>Save Changes</Button>
+                </span>
+              </div>
             </div>
           </>
+        )}
+        {activeItem === "patients" && (
+          <div className="mt-0 h-screen">
+            <Patients />
+          </div>
         )}
       </div>
     </div>

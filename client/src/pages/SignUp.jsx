@@ -64,15 +64,17 @@ const SignUp = () => {
           </p>
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 mt-20">
           <form
             className="flex flex-col gap-2 max-w-md mx-auto"
             onSubmit={handleSubmit}
           >
             <div>
-              <Label className="text-gray-600">Registration ID</Label>
+              <Label className="font-semibold text-nowrap">
+                Registration ID
+              </Label>
               <TextInput
-                className="border p-2 rounded-md w-full"
+                className="border border-gray-300 rounded-md"
                 type="text"
                 placeholder="Username"
                 id="registerID"
@@ -80,9 +82,9 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <Label className="text-gray-600">Hospital Name</Label>
+              <Label className="font-semibold text-nowrap">Hospital Name</Label>
               <TextInput
-                className="border p-2 rounded-md w-full"
+                className="border border-gray-300 rounded-md"
                 type="text"
                 placeholder="Hospital Name"
                 id="HospitalName"
@@ -90,9 +92,9 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <Label className="text-gray-600">Email</Label>
+              <Label className="font-semibold text-nowrap">Email</Label>
               <TextInput
-                className="border p-2 rounded-md w-full"
+                className="border border-gray-300 rounded-md"
                 type="text"
                 placeholder="Email.."
                 id="email"
@@ -100,9 +102,9 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <Label className="text-gray-600">Address</Label>
+              <Label className="font-semibold text-nowrap">Address</Label>
               <TextInput
-                className="border p-2 rounded-md w-full"
+                className="border border-gray-300 rounded-md"
                 type="text"
                 placeholder="Address"
                 id="address"
@@ -110,9 +112,9 @@ const SignUp = () => {
               />
             </div>
             <div>
-              <Label className="text-gray-600">Password</Label>
+              <Label className="font-semibold text-nowrap">Password</Label>
               <TextInput
-                className="border p-2 rounded-md w-full"
+                className="border border-gray-300 rounded-md"
                 type="password"
                 placeholder="*******"
                 id="password"

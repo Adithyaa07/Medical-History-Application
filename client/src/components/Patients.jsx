@@ -104,20 +104,12 @@ function Patients() {
     }
   };
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
-
-  const handleSearch = (e) => {
+  const searchPatient = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
+    navigate(`/searchP?${searchQuery}`);
   };
 
   return (
@@ -125,10 +117,10 @@ function Patients() {
       <h1 className="text-center text-3xl my-7 font-semibold w-full p-10 rounded-lg flex-col">
         Patients Information
       </h1>
-      <form className="w-40 gap-2 m-2" onSubmit={handleSearch}>
+      <form className="w-60 gap-2 m-2" onSubmit={searchPatient}>
         <TextInput
           type="text"
-          placeholder="Search..."
+          placeholder='Search "Patients"'
           rightIcon={AiOutlineSearch}
           className="hidden lg:inline"
           value={searchTerm}
@@ -197,12 +189,17 @@ function Patients() {
             </div>
           </Modal.Header>
           <Modal.Body>
-            <div className="w-500 h-max">
+            <div className="w-900 h-900">
+              <div className="border-dashed border-2 border-gray-300 rounded-lg p-10 h-30 text-center">
+                <p className="text-gray-600">
+                  Drag and drop your profile image here
+                </p>
+              </div>
               <form
-                className="flex flex-col gap-2 max-w-md mx-auto"
+                className="flex flex-col gap-2 w-700"
                 onSubmit={handleSubmit}
               >
-                <div className="grid gap-4 mb-4 grid-cols-2">
+                <div className="grid gap-4 mb-4 grid-cols-2 mt-4">
                   <span>
                     <Label className="text-gray-600">Patient Name</Label>
                     <TextInput
@@ -245,7 +242,9 @@ function Patients() {
                   </span>
                 </div>
                 <div>
-                  <Label className="text-gray-600 gap-1 text-wrap p-3 ">Gender</Label>
+                  <Label className="text-gray-600 gap-1 text-wrap p-3 ">
+                    Gender
+                  </Label>
                   <select
                     className="border p-2 rounded-md"
                     id="gender"
