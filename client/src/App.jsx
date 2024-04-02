@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Search from "./components/Search";
 import DocProfile from "./components/DocProfile";
 import SearchP from "./components/searchP";
+import PatientProf from "./components/PatientProf";
 
 function App() {
   return (
@@ -24,11 +25,12 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/search" element={<Search />} />
         <Route path="/searchP" element={<SearchP />} />
-       
+
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<DashBoard />} />
         </Route>
         <Route path="/doctor/:doctorId" element={<DocProfile />} />
+        <Route path="/patient/:patientId" element={<PatientProf />} />
       </Routes>
       <Footer />
     </BrowserRouter>

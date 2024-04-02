@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 
+const recordSchema = new mongoose.Schema({
+  complaints: { type: String, required: true },
+  doctor: { type: String, required: true },
+  prescription: { type: String, required: true },
+  diagnosis: { type: String, required: true },
+  treatment: { type: String, required: true },
+});
+
 const patientSchema = new mongoose.Schema(
   {
     userId: {
@@ -19,6 +27,7 @@ const patientSchema = new mongoose.Schema(
       type: "boolean",
       default: false,
     },
+    records: [recordSchema],
   },
 
   { timestamps: true }

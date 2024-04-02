@@ -69,3 +69,47 @@ export const getPatients = async (req, res, next) => {
     console.log(error);
   }
 };
+
+export const createRecords = async (req, res, next) => {
+  if (!req.hospital.isAdmin) {
+    return next(
+      errorHandler(401, "You are not authorized to create a patient record")
+    );
+  }
+  if (
+    !req.body.complaints ||
+    !req.body.doctor ||
+    !req.body.prescription ||
+    !req.body.diagnosis ||
+    !req.body.treatment
+  ) {
+    return next(errorHandler(400, "Please fill fields"));
+  }
+  try {
+    const patient = await Patient.findById(req.params.patientId);
+    if (!patient) {
+      return next(errorHandler(404, "Patient not found"));
+    }
+    patient.records.push(req.body);
+    await patient.save();
+    res.status(201).json({
+      success: true,
+      Patient: patient,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const getRecords = async (req, res, next) => {
+  try {
+    const patient = await Patient.findById(req.params.patientId);
+    if (!patient) {
+      return next(errorHandler(404, "Patient not found"));
+    }
+    res.status(200).json({ records: patient.records });
+  } catch (error) {
+    next(error);
+  }
+}

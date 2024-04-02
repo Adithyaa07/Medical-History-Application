@@ -37,7 +37,7 @@ export default function DocProfile() {
   }, [doctorId]);
 
   const toggleItem = (item) => {
-    setActiveItem(activeItem === item ? null : item);
+    setActiveItem(activeItem === item ? item : item);
   };
 
   return (
