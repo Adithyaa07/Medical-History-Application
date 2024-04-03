@@ -13,6 +13,3 @@ export default function DoctorCard({ doctor }) {
     </div>
   );
 }
-{
-  /* {doc.name}*/
-}

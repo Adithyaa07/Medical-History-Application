@@ -45,6 +45,31 @@ export const getPatients = async (req, res, next) => {
           { name: { $regex: req.query.searchTerm, $options: "i" } },
           { blood: { $regex: req.query.searchTerm, $options: "i" } },
           { age: { $regex: req.query.searchTerm, $options: "i" } },
+          {
+            "records.complaints": {
+              $regex: req.query.searchTerm,
+              $options: "i",
+            },
+          },
+          { "records.doctor": { $regex: req.query.searchTerm, $options: "i" } },
+          {
+            "records.prescription": {
+              $regex: req.query.searchTerm,
+              $options: "i",
+            },
+          },
+          {
+            "records.diagnosis": {
+              $regex: req.query.searchTerm,
+              $options: "i",
+            },
+          },
+          {
+            "records.treatment": {
+              $regex: req.query.searchTerm,
+              $options: "i",
+            },
+          },
         ],
       }),
     })
@@ -101,7 +126,6 @@ export const createRecords = async (req, res, next) => {
   }
 };
 
-
 export const getRecords = async (req, res, next) => {
   try {
     const patient = await Patient.findById(req.params.patientId);
@@ -112,4 +136,4 @@ export const getRecords = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}
+};

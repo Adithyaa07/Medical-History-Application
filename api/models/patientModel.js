@@ -6,6 +6,10 @@ const recordSchema = new mongoose.Schema({
   prescription: { type: String, required: true },
   diagnosis: { type: String, required: true },
   treatment: { type: String, required: true },
+  category: {
+    type: String,
+    default: 'records',
+  },
 });
 
 const patientSchema = new mongoose.Schema(
@@ -26,6 +30,10 @@ const patientSchema = new mongoose.Schema(
     isAdmin: {
       type: "boolean",
       default: false,
+    },
+    category: {
+      type: String,
+      default: 'patient',
     },
     records: [recordSchema],
   },
