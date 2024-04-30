@@ -85,6 +85,11 @@ function Header() {
         <Navbar.Link active={path === "/about"} as={"div"}>
           <Link to="/about">About</Link>
         </Navbar.Link>
+        {currentHospital && (
+          <Navbar.Link active={path === "/dashboard"} as={"div"}>
+            <Link to="/dashboard">Dashboard</Link>
+          </Navbar.Link>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );

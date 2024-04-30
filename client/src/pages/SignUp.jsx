@@ -122,8 +122,9 @@ const SignUp = () => {
               />
             </div>
             <Button
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-md"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-md"
               type="submit"
+              outline
               disabled={loading}
             >
               {loading ? (

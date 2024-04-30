@@ -8,7 +8,7 @@ import { HiArrowSmLeft } from "react-icons/hi";
 export default function Search() {
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
-    sort: "desc",
+    order: "desc",
     category: "uncategorized",
   });
 
@@ -23,13 +23,13 @@ export default function Search() {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
-    const sortFromUrl = urlParams.get("sort");
+    const sortFromUrl = urlParams.get("order");
     const categoryFromUrl = urlParams.get("category");
     if (searchTermFromUrl || sortFromUrl || categoryFromUrl) {
       setSidebarData({
         ...sidebarData,
         searchTerm: searchTermFromUrl,
-        sort: sortFromUrl,
+        order: sortFromUrl,
         category: categoryFromUrl,
       });
     }
@@ -60,9 +60,9 @@ export default function Search() {
     if (e.target.id === "searchTerm") {
       setSidebarData({ ...sidebarData, searchTerm: e.target.value });
     }
-    if (e.target.id === "sort") {
+    if (e.target.id === "order") {
       const order = e.target.value || "desc";
-      setSidebarData({ ...sidebarData, sort: order });
+      setSidebarData({ ...sidebarData, order: order });
     }
     if (e.target.id === "category") {
       const category = e.target.value || "uncategorized";
@@ -74,7 +74,7 @@ export default function Search() {
     e.preventDefault();
     const urlParams = new URLSearchParams(location.search);
     urlParams.set("searchTerm", sidebarData.searchTerm);
-    urlParams.set("sort", sidebarData.sort);
+    urlParams.set("order", sidebarData.order);
     urlParams.set("category", sidebarData.category);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
@@ -125,7 +125,7 @@ export default function Search() {
           </div>
           <div className="flex items-center gap-2">
             <label className="font-semibold">Sort:</label>
-            <Select onChange={handleChange} value={sidebarData.sort} id="sort">
+            <Select onChange={handleChange} value={sidebarData.order} id="order">
               <option value="desc">Latest</option>
               <option value="asc">Oldest</option>
             </Select>
