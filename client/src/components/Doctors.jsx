@@ -98,16 +98,13 @@ export default function Doctors() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-
-      if (data.success === false) {
-        return setErrorMessage(data.errorMessage);
+      if (!res.ok || data.success === false) {
+        throw new Error(data.errorMessage || "Failed to add patient");
       }
 
-      if (res.ok) {
-        setLoading(false);
-        navigate("/dashboard?tab=doctors");
-        setShowModal(false);
-      }
+      setLoading(false);
+      navigate("/dashboard?tab=doctors");
+      setShowModal(false);
     } catch (error) {
       setErrorMessage(error.message);
     }

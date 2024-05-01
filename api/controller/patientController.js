@@ -137,3 +137,15 @@ export const getRecords = async (req, res, next) => {
     next(error);
   }
 };
+
+// export const getRec = async (req, res, next) => {
+//   try {
+//     const rec = await Patient.find(req.params.userId);
+//     if (!rec) {
+//       return next(errorHandler(404, "Record not found"));
+//     }
+//     res.status(200).json({ records: rec.records });
+//   } catch (error) {
+//     next(error);
+//   }
+// };

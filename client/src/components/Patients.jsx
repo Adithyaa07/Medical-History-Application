@@ -33,7 +33,8 @@ function Patients() {
     const fetchPatient = async () => {
       try {
         const res = await fetch(
-          `/api/patient/getPatients?userId=${currentHospital._id}`
+          `/api/patient/getPatients`
+          // ?userId=${currentHospital._id}
         );
         const data = await res.json();
         if (res.ok) {
