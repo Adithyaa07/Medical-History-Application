@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import DashSideBar from "../components/DashSideBar";
 import DashProfile from "../components/DashProfile";
-import Settings from "../components/Settings";
+
 import Doctors from "../components/Doctors";
 import Patients from "../components/Patients";
+import Services from "../components/Services";
+import Campaigns from "../components/Campaigns";
 import DashBoardComp from "../components/DashBoardComp";
 
 const DashBoard = () => {
@@ -24,13 +26,14 @@ const DashBoard = () => {
       <div className="md:w-56">
         <DashSideBar />
       </div>
-      
-        {tab === "profile" && <DashProfile />}
-        {tab === "settings" && <Settings />}
-        {tab === "doctors" && <Doctors />}
-        {tab === "patients" && <Patients />}
-        {tab === "dash" && <DashBoardComp />}
-      
+
+      {tab === "profile" && <DashProfile />}
+
+      {tab === "doctors" && <Doctors />}
+      {tab === "patients" && <Patients />}
+      {tab === "services" && <Services />}
+      {tab === "campaigns" && <Campaigns />}
+      {tab === "dash" && <DashBoardComp />}
     </div>
   );
 };

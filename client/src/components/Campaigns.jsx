@@ -1,9 +1,11 @@
 // import React from 'react'
 
-export default function Settings() {
+function Campaigns() {
   return (
     <div>
-      Settings
+      Campaigns
     </div>
   )
 }
+
+export default Campaigns

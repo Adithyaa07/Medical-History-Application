@@ -59,7 +59,7 @@ function PatientProf() {
           <div>
             {patient && (
               <>
-                {patient.gender === "M" ? (
+                {patient.gender === "Male" ? (
                   <h3 className="text-xl font-bold">Mr. {patient.name}</h3>
                 ) : (
                   <h3 className="text-xl font-bold">Ms. {patient.name}</h3>

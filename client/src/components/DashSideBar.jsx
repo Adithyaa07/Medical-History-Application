@@ -3,7 +3,10 @@ import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiUser, HiArrowSmRight, HiUserGroup } from "react-icons/hi";
 import { RxDashboard } from "react-icons/rx";
-import { CiSettings, CiHospital1 } from "react-icons/ci";
+import { MdMedicalServices } from "react-icons/md";
+import { CiHospital1 } from "react-icons/ci";
+import { GrAnnounce } from "react-icons/gr";
+import { FaUserDoctor } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import { SignOutSuccess } from "../redux/hospital/hospitalSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -67,22 +70,36 @@ export default function DashSideBar() {
             <Link to="/dashboard?tab=doctors">
               <Sidebar.Item
                 active={tab === "doctors"}
-                icon={HiUserGroup}
+                icon={FaUserDoctor}
                 as="div"
               >
                 Doctors
               </Sidebar.Item>
             </Link>
           )}
-          <Link to="/dashboard?tab=settings">
-            <Sidebar.Item
-              icon={CiSettings}
-              active={tab === "settings"}
-              as="div"
-            >
-              Settings
-            </Sidebar.Item>
-          </Link>
+          {currentHospital && (
+            <Link to="/dashboard?tab=services">
+              <Sidebar.Item
+                active={tab === "services"}
+                icon={MdMedicalServices}
+                as="div"
+              >
+                Services
+              </Sidebar.Item>
+            </Link>
+          )}
+           {currentHospital && (
+            <Link to="/dashboard?tab=campaigns">
+              <Sidebar.Item
+                active={tab === "campaigns"}
+                icon={GrAnnounce}
+                as="div"
+              >
+                Campaigns
+              </Sidebar.Item>
+            </Link>
+          )}
+ 
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
