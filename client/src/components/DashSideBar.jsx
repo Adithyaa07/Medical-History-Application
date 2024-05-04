@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react'
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -88,7 +89,7 @@ export default function DashSideBar() {
               </Sidebar.Item>
             </Link>
           )}
-           {currentHospital && (
+          {currentHospital && (
             <Link to="/dashboard?tab=campaigns">
               <Sidebar.Item
                 active={tab === "campaigns"}
@@ -99,8 +100,8 @@ export default function DashSideBar() {
               </Sidebar.Item>
             </Link>
           )}
- 
-          <Link to="/dashboard?tab=profile">
+
+          {/* <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
@@ -110,7 +111,7 @@ export default function DashSideBar() {
             >
               Profile
             </Sidebar.Item>
-          </Link>
+          </Link> */}
           <Sidebar.Item
             onClick={handleSignOut}
             icon={HiArrowSmRight}

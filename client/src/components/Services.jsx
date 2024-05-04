@@ -85,7 +85,6 @@ function Services() {
       if (!res.ok || data.success === false) {
         throw new Error(data.errorMessage || "Failed to add Service");
       }
-
       setLoading(false);
       navigate("/dashboard?tab=services");
       setShowModal(false);
@@ -123,13 +122,13 @@ function Services() {
                   {doc && (
                     <>
                       {doc.status === "Disabled" ? (
-                        <div className="text-red-500">
-                          <Table.Cell>{doc.status}</Table.Cell>
-                        </div>
+                        <Table.Cell className="text-red-500">
+                          {doc.status}
+                        </Table.Cell>
                       ) : (
-                        <div className="text-green-500">
-                          <Table.Cell>{doc.status}</Table.Cell>
-                        </div>
+                        <Table.Cell className="text-green-500">
+                          {doc.status}
+                        </Table.Cell>
                       )}
                     </>
                   )}

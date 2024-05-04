@@ -28,7 +28,9 @@ function Header() {
   };
 
   return (
-    <Navbar className="self-center border-b-2 text-sm sm:text-xl font-semibold dark:text-white">
+    <Navbar
+      className="self-center border-b-2 text-sm sm:text-xl font-semibold dark:text-white"
+    >
       <Link to="/">
         <span className="px-2 py-1 rounded bg-gradient-to-r  from-yellow-200 via-orange-300 to-red-500 text-gray">
           DocVault
@@ -73,12 +75,12 @@ function Header() {
         )}
         {currentHospital && (
           <div className="text-sm content-center mt-2">
-            {currentHospital.HospitalName}
+            {currentHospital.HospitalName} Hospital
           </div>
         )}
         <Navbar.Toggle />
       </div>
-      <Navbar.Collapse>
+      <Navbar.Collapse >
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
         </Navbar.Link>
